@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductionOrder extends Model
 {
     protected $fillable = ['code','transaction_date','production_type'];
+    protected $with =['productionOrderDetails'];
 
     //default value
     protected $attributes = [
@@ -21,5 +22,10 @@ class ProductionOrder extends Model
     public function deliveryRequest()
     {
         return $this->hasOne('App\DeliveryRequest');
+    }
+
+    public function productionResult()
+    {
+        return $this->hasOne('App\ProductionResult');
     }
 }

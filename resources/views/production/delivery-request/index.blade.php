@@ -21,7 +21,6 @@
             <th scope="col" class="sorting" tabindex="0" aria-controls="delivery-request-table" rowspan="1" colspan="1">No. Permintaan Produksi</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="delivery-request-table" rowspan="1" colspan="1">Tanggal Permintaan Produksi</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="delivery-request-table" rowspan="1" colspan="1">Tipe Produk</th>
-            <th scope="col" class="sorting" tabindex="0" aria-controls="delivery-request-table" rowspan="1" colspan="1">Tipe Pengeluaran</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="delivery-request-table" rowspan="1" colspan="1">No. Perintah Produksi</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="delivery-request-table" rowspan="1" colspan="1">Lihat Detail</th>
         </tr>
@@ -37,7 +36,6 @@
                 @else
                 <td>Pendukung</td>
                 @endif
-                <td>{{ $item->product_type }}</td>
                 <td>{{ $item->productionOrder->code }}</td>
                 <td><a class="btn btn-success" href="delivery-request/{{ $item->id }}">Lihat Detail</a></td>
             </tr>

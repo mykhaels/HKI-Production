@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductionOrderDetail extends Model
+class ProductionResultDetail extends Model
 {
     protected $fillable = ['product_id','qty','uom_id'];
     protected $with = ['product','uom'];
@@ -12,16 +12,16 @@ class ProductionOrderDetail extends Model
 
     public function product()
     {
-        return $this->belongsTo('App\Product');
+        return $this->belongsTo('App\Product', 'product_id');
     }
 
     public function uom()
     {
-        return $this->belongsTo('App\Uom');
+        return $this->belongsTo('App\Uom', 'uom_id');
     }
 
-    public function productionOrder()
+    public function productionResult()
     {
-        return $this->belongsTo('App\ProductionOrder');
+        return $this->belongsTo('App\ProductionResult');
     }
 }

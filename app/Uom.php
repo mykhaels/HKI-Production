@@ -27,4 +27,8 @@ class Uom extends Model
     {
         return $this->hasOne('App\DeliveryRequestDetail');
     }
+    public function productionResultDetail()
+    {
+        return $this->hasOne('App\ProductionResultDetail');
+    }
 }

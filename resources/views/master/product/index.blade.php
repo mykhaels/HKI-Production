@@ -23,7 +23,7 @@
             <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Tipe Produk</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Status Produk</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Lihat Detail</th>
-            <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Hapus</th>
+            <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Ubah Status</th>
         </tr>
     </thead>
     <tbody>
@@ -47,10 +47,10 @@
                 @endif
                 <td><a class="btn btn-success" href="product/{{ $item->id }}">Lihat Detail</a></td>
                 <td>
-                    <form action="product/{{ $item->id }}" method="post">
-                        @method('delete')
+                    <form action="product/status/{{ $item->id }}" method="post">
+                        @method('patch')
                         @csrf
-                        <button type="submit" class="btn btn-danger">Hapus</button>
+                        <button type="submit" class="btn btn-success">Ubah Status</button>
                     </form>
                 </td>
             </tr>

@@ -14,7 +14,7 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        return view('master.product-category.index',  ['categories'=>ProductCategory::paginate(1)]);
+        return view('master.product-category.index',  ['categories'=>ProductCategory::paginate(10)]);
     }
 
     /**
@@ -128,6 +128,19 @@ class ProductCategoryController extends Controller
     public function getCategories($id=0){
         $categoryData['data'] = ProductCategory::where('product_type',$id)->get();
         return response()->json($categoryData);
+    }
+
+    public function updateStatus(ProductCategory $productCategory)
+    {
+        $status = 1;
+        if($productCategory->status==1){
+            $status = 2;
+        }
+        ProductCategory::where('id', $productCategory->id)->update([
+            'status' => $status
+        ]);
+
+        return redirect('/product-category')->with('status','Status Kategori Produk Berhasil Diupdate !');
     }
 
 }

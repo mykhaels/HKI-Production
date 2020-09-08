@@ -46,11 +46,11 @@ return [
     */
 
     'logo' => '<b>Admin</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'vendor/adminlte/dist/img/logo.jpeg',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'AdminLTE',
+    'logo_img_alt' => 'DTO',
 
     /*
     |--------------------------------------------------------------------------
@@ -231,7 +231,6 @@ return [
     */
 
     'menu' => [
-
         ['header' => 'MASTER'],
         [
             'text' => 'Master Kategori Produk ',
@@ -242,11 +241,6 @@ return [
             'text' => 'Master Produk',
             'url'  => 'product',
             'icon' => 'fab fa-product-hunt',
-        ],
-        [
-            'text' => 'Master Resep Produk',
-            'url'  => '#',
-            'icon' => 'fas fa-receipt',
         ],
         ['header' => 'PERSEDIAAN'],
         [

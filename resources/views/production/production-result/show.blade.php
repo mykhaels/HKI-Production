@@ -1,30 +1,30 @@
 @extends('adminlte::page')
-@section('title', 'Detail Perintah Produksi')
+@section('title', 'Detail Hasil Produksi')
 
 @section('content_header')
-    <h1>DETAIL PERINTAH PRODUKSI</h1>
+    <h1>DETAIL HASIL PRODUKSI</h1>
 @stop
 
 @section('content')
-<form method="post" action="/production-order">
+<form method="post" action="/production-result">
     @csrf
     <div class="form-group row">
         <label for="productType" class="col-sm-2 col-form-label">Tipe Produk</label>
         <div  class="col-sm-2">
-            <select class="form-control" id="productType" name="production_type" disabled>
-                <option value="1" @if ($productionOrder->production_type == 1)
+            <select class="form-control" id="productType" name="product_type" disabled>
+                <option value="1" @if ($productionResult->product_type == 1)
                     selected
                 @endif>Barang Jadi</option>
-                <option value="2" @if ($productionOrder->production_type == 2)
+                <option value="2" @if ($productionResult->product_type == 2)
                     selected
                 @endif>Bahan Baku</option>
             </select>
         </div>
     </div>
     <div class="form-group row">
-        <label for="code" class="col-sm-2 col-form-label">No Perintah</label>
+        <label for="code" class="col-sm-2 col-form-label">No Hasil Produksi</label>
         <div  class="col-sm-2">
-            <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"  name="code" value="{{ $productionOrder->code }}" disabled>
+            <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"  name="code" value="{{ $productionResult->code }}" disabled>
             @error('code')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -33,10 +33,23 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="transaction_date" class="col-sm-2 col-form-label">Tanggal Perintah</label>
+        <label for="transaction_date" class="col-sm-2 col-form-label">Tanggal Hasil Produksi</label>
         <div  class="col-sm-2">
-        <input type="date" class="form-control @error('transaction_date') is-invalid @enderror" id="transaction_date"  name="transaction_date" value="{{ $productionOrder->transaction_date }}" disabled>
+        <input type="date" class="form-control @error('transaction_date') is-invalid @enderror" id="transaction_date"  name="transaction_date" value="{{ $productionResult->transaction_date }}" disabled>
             @error('transaction_date')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="production_order_id" class="col-sm-2 col-form-label">No Perintah Produksi</label>
+        <div  class="col-sm-2">
+            <select class="form-control @error('production_order_id') is-invalid @enderror" id="production_order_id" name="production_order_id" disabled>
+                <option value="{{ $productionResult->productionOrder->id}}">{{ $productionResult->productionOrder->code }}</option>
+            </select>
+            @error('production_order_id')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -46,13 +59,13 @@
     <table class="table" id="details_table">
         <thead>
             <tr>
-                <th scope="col">Kode-Nama Bahan</th>
+                <th scope="col">Kode-Barang</th>
                 <th scope="col">Qty</th>
                 <th scope="col">Satuan</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($productionOrder->productionOrderDetails as $item)
+            @foreach ($productionResult->productionResultDetails as $item)
                 <tr scope="row">
                     <td >
                         <div class="form-row">
@@ -73,8 +86,6 @@
             @endforeach
         </tbody>
     </table>
-
-
 @stop
 
 @section('footer')
@@ -87,4 +98,10 @@
     </div> --}}
 </div>
 </form>
+@stop
+
+@section('js')
+<script>
+
+</script>
 @stop

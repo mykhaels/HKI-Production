@@ -47,4 +47,8 @@ class Product extends Model
     {
         return $this->hasOne('App\DeliverRequestDetail');
     }
+    public function productionResultDetail()
+    {
+        return $this->hasOne('App\ProductionResultDetail');
+    }
 }

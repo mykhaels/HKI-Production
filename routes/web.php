@@ -23,11 +23,14 @@ Route::get('/home', function() {
 
 
 Route::get('product-category/get-category/{id}', 'ProductCategoryController@getCategories');
+Route::patch('product-category/status/{productCategory}', 'ProductCategoryController@updateStatus');
 Route::resource('product-category', 'ProductCategoryController');
+Route::patch('product/status/{product}', 'ProductController@updateStatus');
 Route::resource('product', 'ProductController');
 Route::get('delivery-note/get-delivery-request','DeliveryNoteController@getDeliveryRequest');
 Route::resource('delivery-note', 'DeliveryNoteController');
 Route::get('production-order/search_product','ProductionOrderController@searchProduct');
 Route::resource('production-order', 'ProductionOrderController');
 Route::resource('delivery-request', 'DeliveryRequestController');
-
+Route::get('production-result/get-production-order','ProductionResultController@getProductionOrder');
+Route::resource('production-result', 'ProductionResultController');

@@ -100,5 +100,18 @@ class ProductController extends Controller
         //
     }
 
+    public function updateStatus(Product $product)
+    {
+        $status = 1;
+        if($product->status==1){
+            $status = 2;
+        }
+        Product::where('id', $product->id)->update([
+            'status' => $status
+        ]);
+
+        return redirect('/product')->with('status','Status Produk Berhasil Diupdate !');
+    }
+
 
 }
