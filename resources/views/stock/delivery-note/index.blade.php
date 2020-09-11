@@ -5,6 +5,11 @@
     <h1>Pengeluaran Produksi</h1>
 @stop
 
+@section('css')
+    <link rel="stylesheet" href="/vendor/adminlte/dist/css/custom.css">
+@stop
+
+
 @section('content')
 @if (session('status'))
     <div class="alert alert-success">

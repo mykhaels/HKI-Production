@@ -26,8 +26,18 @@ class ProductionOrderController extends Controller
      */
     public function create()
     {
+        $object = ProductionOrder::latest()->first();
+        $id=0;
+        if($object==null){
+            $id++;
+        }else{
+            $id=$object->id;
+            $id++;
+        }
+
+        $generatedCode='PO-'. str_pad($id, 5, '0', STR_PAD_LEFT);
         $uoms = Uom::all();
-        return view('production.production-order.create', compact('uoms'));
+        return view('production.production-order.create', compact('uoms','generatedCode'));
     }
 
     /**

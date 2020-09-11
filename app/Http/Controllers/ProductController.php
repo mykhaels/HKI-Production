@@ -26,9 +26,18 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $object = Product::latest()->first();
+        $id=0;
+        if($object==null){
+            $id++;
+        }else{
+            $id=$object->id;
+            $id++;
+        }
+        $generatedCode='PD-'. str_pad($id, 5, '0', STR_PAD_LEFT);
         $uoms =Uom::all();
         $productCategories = ProductCategory::all();
-        return view('master.product.create',compact('uoms'),compact('productCategories'));
+        return view('master.product.create',compact('uoms'),compact('productCategories','generatedCode'));
     }
 
     /**

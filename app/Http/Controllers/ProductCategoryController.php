@@ -24,7 +24,16 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        return view('master.product-category.create');
+        $object = ProductCategory::latest()->first();
+        $id=0;
+        if($object==null){
+            $id++;
+        }else{
+            $id=$object->id;
+            $id++;
+        }
+        $generatedCode='CT-'. str_pad($id, 5, '0', STR_PAD_LEFT);
+        return view('master.product-category.create',compact('generatedCode'));
     }
 
     /**

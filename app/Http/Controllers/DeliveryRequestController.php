@@ -26,9 +26,18 @@ class DeliveryRequestController extends Controller
      */
     public function create()
     {
+        $object = DeliveryRequest::latest()->first();
+        $id=0;
+        if($object==null){
+            $id++;
+        }else{
+            $id=$object->id;
+            $id++;
+        }
+        $generatedCode='DR-'. str_pad($id, 5, '0', STR_PAD_LEFT);
         $uoms = Uom::all();
         $productionOrders=ProductionOrder::where('status','=',1)->get();
-        return view('production.delivery-request.create', compact('productionOrders','uoms'));
+        return view('production.delivery-request.create', compact('productionOrders','uoms','generatedCode'));
     }
 
     /**

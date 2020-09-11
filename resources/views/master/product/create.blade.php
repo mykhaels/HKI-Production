@@ -31,7 +31,7 @@
     <div class="form-group row">
         <label for="code" class="col-sm-2 col-form-label">Kode Produk</label>
         <div  class="col-sm-2">
-            <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"  name="code" value="{{ old('code') }}">
+            <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"  name="code" value="{{ $generatedCode }}" readonly>
             @error('code')
                 <div class="invalid-feedback">
                     {{ $message }}

@@ -45,9 +45,9 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>',
+    'logo' => 'Admin DTO',
     'logo_img' => 'vendor/adminlte/dist/img/logo.jpeg',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo_img_class' => 'brand-image',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'DTO',
@@ -65,10 +65,10 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
     'usermenu_profile_url' => false,
 
     /*
@@ -264,6 +264,7 @@ return [
             'url'  => 'production-result',
             'icon' => 'fas fa-cubes',
         ],
+
 
 
 

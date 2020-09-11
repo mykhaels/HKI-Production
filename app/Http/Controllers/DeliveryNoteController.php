@@ -27,9 +27,18 @@ class DeliveryNoteController extends Controller
      */
     public function create()
     {
+        $object = DeliveryNote::latest()->first();
+        $id=0;
+        if($object==null){
+            $id++;
+        }else{
+            $id=$object->id;
+            $id++;
+        }
+        $generatedCode='DN-'. str_pad($id, 5, '0', STR_PAD_LEFT);
         $deliveryRequests = DeliveryRequest::where('status',1)->get();
         $uoms =Uom::all();
-        return view('stock.delivery-note.create', compact('deliveryRequests','uoms'));
+        return view('stock.delivery-note.create', compact('deliveryRequests','uoms','generatedCode'));
     }
 
     /**

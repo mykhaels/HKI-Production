@@ -26,8 +26,17 @@ class ProductionResultController extends Controller
      */
     public function create()
     {
+        $object = ProductionResult::latest()->first();
+        $id=0;
+        if($object==null){
+            $id++;
+        }else{
+            $id=$object->id;
+            $id++;
+        }
+        $generatedCode='PR-'. str_pad($id, 5, '0', STR_PAD_LEFT);
         $deliveryRequests=DeliveryRequest::where('status','=',2)->get();
-        return view('production.production-result.create', compact('deliveryRequests'));
+        return view('production.production-result.create', compact('deliveryRequests','generatedCode'));
     }
 
     /**
@@ -120,4 +129,5 @@ class ProductionResultController extends Controller
             return response()->json($productionOrder);
         }
     }
+
 }
