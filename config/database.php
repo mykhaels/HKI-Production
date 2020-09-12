@@ -46,7 +46,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'mysql.freehostia.com'),
+            'host' => env('DB_HOST', '10.123.0.54'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'mikvin8_dtoproduction'),
             'username' => env('DB_USERNAME', 'mikvin8_dtoproduction'),
