@@ -27,5 +27,8 @@ class AppServiceProvider extends ServiceProvider
         $charts->register([
             \App\Charts\ProductionOrderChart::class
         ]);
+        if(config('app.env') === 'production') {
+            \URL::forceScheme('https');
+        }
     }
 }
