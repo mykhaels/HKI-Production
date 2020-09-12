@@ -50,7 +50,7 @@ return [
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'mikvin8_dtoproduction'),
             'username' => env('DB_USERNAME', 'mikvin8_dtoproduction'),
-            'password' => env('DB_PASSWORD', 'Glorias12'),
+            'password' => env('DB_PASSWORD', '4Hg2i2ncVW'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
