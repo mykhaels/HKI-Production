@@ -75,7 +75,7 @@ class ProductionResultController extends Controller
 
         ProductionOrder::where('id',$request->input('production_order_id'))->update(['status'=>2]);
 
-        return redirect('/delivery-request')->with('status','Data Permintaan Bahan Baku Berhasil Disimpan !');
+        return redirect('/production-result')->with('status','Data Permintaan Bahan Baku Berhasil Disimpan !');
     }
 
     /**

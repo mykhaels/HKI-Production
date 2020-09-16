@@ -135,7 +135,7 @@ class ProductCategoryController extends Controller
 
 
     public function getCategories($id=0){
-        $categoryData['data'] = ProductCategory::where('product_type',$id)->get();
+        $categoryData['data'] = ProductCategory::where([['product_type','=',$id],['status','=',1]])->get();
         return response()->json($categoryData);
     }
 

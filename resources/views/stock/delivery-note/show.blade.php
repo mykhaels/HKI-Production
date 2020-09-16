@@ -103,7 +103,7 @@
 @section('footer')
 <div class="row">
     <div class="col-2">
-        <button type="button" class="btn btn-primary">Kembali</button>
+        <a href="/delivery-note"><button type="button" class="btn btn-primary">Kembali</button></a>
     </div>
 </div>
 </form>

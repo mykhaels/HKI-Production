@@ -81,7 +81,7 @@
 @section('footer')
 <div class="row">
     <div class="col-2">
-        <button type="button" class="btn btn-primary">Kembali</button>
+        <a href="/delivery-note"><button type="button" class="btn btn-primary">Kembali</button></a>
     </div>
     <div class="col-10 text-right">
         <button type="submit" class="btn btn-primary">Simpan</a>

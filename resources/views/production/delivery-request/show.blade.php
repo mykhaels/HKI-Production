@@ -94,7 +94,7 @@
 @section('footer')
 <div class="row">
     <div class="col-2">
-        <a href="/production-order"><button type="button" class="btn btn-primary">Kembali</button></a>
+        <a href="/delivery-request"><button type="button" class="btn btn-primary">Kembali</button></a>
     </div>
     {{-- <div class="col-10 text-right">
         <button type="submit" class="btn btn-primary">Simpan</a>

@@ -46,7 +46,7 @@ return [
     */
 
     'logo' => 'Admin DTO',
-    'logo_img' => 'vendor/adminlte/dist/img/logo.jpeg',
+    'logo_img' => '/vendor/adminlte/dist/img/Logo.jpeg',
     'logo_img_class' => 'brand-image',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -66,7 +66,7 @@ return [
 
     'usermenu_enabled' => true,
     'usermenu_header' => true,
-    'usermenu_header_class' => 'bg-primary',
+    'usermenu_header_class' => 'bg-dark',
     'usermenu_image' => true,
     'usermenu_desc' => true,
     'usermenu_profile_url' => false,

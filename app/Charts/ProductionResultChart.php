@@ -10,14 +10,14 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
-class ProductionOrderChart extends BaseChart
+class ProductionResultChart extends BaseChart
 {
      /**
      * Determines the chart name to be used on the
      * route. If null, the name will be a snake_case
      * version of the class name.
      */
-    public ?string $name = 'Perintah-Produksi';
+    public ?string $name = 'Hasil Produksi';
 
     /**
      * Determines the name suffix of the chart route.
@@ -25,7 +25,7 @@ class ProductionOrderChart extends BaseChart
      * from the blade directrive. If null, the chart
      * name will be used.
      */
-    public ?string $routeName = 'ProductionOrderChart';
+    public ?string $routeName = 'ProductionResultChart';
 
     /**
      * Determines the prefix that will be used by the chart
@@ -47,15 +47,16 @@ class ProductionOrderChart extends BaseChart
     public function handler(Request $request): Chartisan
     {
 
-        $data = DB::table('production_orders')->selectRaw('count(id) AS count, status')->groupBy('status')->get();
-        $array = [0,0,0];
+        $data = DB::table('production_results as hdr')
+        ->join('production_result_details as dtl','hdr.id','=','dtl.production_result_id')
+        ->selectRaw('count(dtl.id) AS count, production_type')->groupBy('production_type')->get();
+        $array = [0,0];
         foreach($data as $d){
-            if($d->status==1)$array[0]=$d->count;
-            else if($d->status==2)$array[1]=$d->count;
-            else $array[2]=$d->count;
+            if($d->production_type==1)$array[0]=$d->count;
+            else if($d->production_type==2)$array[1]=$d->count;
         }
         return Chartisan::build()
-            ->labels(['Baru', 'Terkirim', 'Selesai'])
-            ->dataset('Perintah Produksi', $array);
+            ->labels(['Barang Jadi', 'Bahan Baku'])
+            ->dataset('Hasil Produksi Berdasarkan Tipe', $array);
     }
 }

@@ -115,7 +115,7 @@ class ProductionOrderController extends Controller
     public function searchProduct(Request $request){
         $products=Product::all();
         if($request->ajax()){
-            $products = Product::where([['name', 'like','%'.$request->search."%"],['product_type','=',$request->type]])->get();
+            $products = Product::where([['name', 'like','%'.$request->search."%"],['product_type','=',$request->type],['status','=',1]])->get();
         }
         return response()->json($products);
     }
