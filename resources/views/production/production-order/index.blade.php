@@ -30,7 +30,7 @@
             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{ $item->code }}</td>
-                <td>{{ $item->transaction_date }}</td>
+                <td>{{ date('d-M-Y', strtotime($item->transaction_date)) }}</td>
                 @if ($item->production_type==1)
                 <td>Barang Jadi</td>
                 @else
