@@ -31,6 +31,26 @@ Route::get('delivery-note/get-delivery-request','DeliveryNoteController@getDeliv
 Route::resource('delivery-note', 'DeliveryNoteController');
 Route::get('production-order/search_product','ProductionOrderController@searchProduct');
 Route::resource('production-order', 'ProductionOrderController');
+Route::get('/delivery-request/{deliveryRequest}/pdf','DeliveryRequestController@print');
 Route::resource('delivery-request', 'DeliveryRequestController');
 Route::get('production-result/get-production-order','ProductionResultController@getProductionOrder');
 Route::resource('production-result', 'ProductionResultController');
+Route::resource('supplier', 'SupplierController');
+Route::get('purchase-order/get-price','PurchaseOrderController@getPrice');
+Route::patch('purchase-order/updateStatus/{purchaseOrder}','PurchaseOrderController@updateStatus');
+Route::resource('purchase-order', 'PurchaseOrderController');
+Route::get('initial-payment/getPurchaseOrder','InitialPaymentController@getPurchaseOrder');
+Route::get('initial-payment/getListPOSupplier','InitialPaymentController@getListPOSupplier');
+Route::resource('initial-payment', 'InitialPaymentController');
+Route::resource('good-receipt', 'GoodReceiptController');
+Route::get('retur/getGoodReceipt','ReturController@getGoodReceipt');
+Route::get('retur/getListBPBSupplier','ReturController@getListBPBSupplier');
+Route::resource('retur', 'ReturController');
+Route::patch('invoice/updateStatus/{invoice}','InvoiceController@updateStatus');
+Route::get('invoice/getListBPBSupplier','InvoiceController@getListBPBSupplier');
+Route::get('invoice/getGoodReceiptPO','InvoiceController@getGoodReceiptPO');
+Route::resource('invoice', 'InvoiceController');
+Route::get('settlement/getNotSettledInvoice','SettlementController@getNotSettledInvoice');
+Route::resource('settlement', 'SettlementController');
+Route::resource('writeoff', 'WriteOffController');
+

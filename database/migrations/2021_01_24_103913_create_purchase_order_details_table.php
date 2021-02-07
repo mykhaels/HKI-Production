@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductUom extends Migration
+class CreatePurchaseOrderDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateProductUom extends Migration
      */
     public function up()
     {
-        Schema::create('product_uom', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('purchase_order_details', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('purchase_order_id');
             $table->bigInteger('product_id');
+            $table->integer('qty');
             $table->bigInteger('uom_id');
-            $table->integer('conversion');
-            $table->tinyInteger('level');
             $table->decimal('price',20,2);
+            $table->decimal('discount',20,2);
+            $table->integer('tax_status');
+            $table->decimal('total',20,2);
+            $table->timestamps();
         });
     }
 
@@ -30,6 +34,6 @@ class CreateProductUom extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_uom');
+        Schema::dropIfExists('purchase_order_details');
     }
 }

@@ -27,7 +27,7 @@ class Product extends Model
      */
     public function uoms()
     {
-        return $this->belongsToMany('App\Uom')->withPivot(['conversion','level']);
+        return $this->belongsToMany('App\Uom')->withPivot(['conversion','level','price']);
     }
 
     public function productCategory(){

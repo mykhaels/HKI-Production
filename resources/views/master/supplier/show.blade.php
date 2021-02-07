@@ -1,29 +1,36 @@
 @extends('adminlte::page')
-@section('title', 'Insert Produk')
+@section('title', 'Produk')
 
 @section('content_header')
-    <h1>INSERT PRODUK</h1>
+    <h1>PRODUK</h1>
 @stop
-
 @section('content')
 <form method="post" action="/product">
     @csrf
     <div class="form-group row">
         <label for="productType" class="col-sm-2 col-form-label">Tipe Produk</label>
         <div  class="col-sm-2">
-            <select class="form-control" id="productType" name="product_type">
-            <option value="1">Barang Jadi</option>
-            <option value="2">Bahan Baku</option>
-            <option value="3">Pendukung</option>
+            <select class="form-control" id="productType" name="product_type" disabled>
+                <option value="1" @if ($product->product_type == 1)
+                    selected
+                @endif>Barang Jadi</option>
+                <option value="2" @if ($product->product_type == 2)
+                    selected
+                @endif>Bahan Baku</option>
+                <option value="3" @if ($product->product_type == 3)
+                    selected
+                @endif>Pendukung</option>
             </select>
         </div>
     </div>
     <div class="form-group row">
         <label for="category" class="col-sm-2 col-form-label">Kategori Produk</label>
         <div  class="col-sm-2">
-            <select class="form-control" id="product_category_id" name="product_category_id">
+            <select class="form-control" id="product_category_id" name="product_category_id" disabled>
                 @foreach ($productCategories as $productCategory)
-                    <option value="{{ $productCategory->id }}">{{ $productCategory->product_category }}</option>
+                    <option value="{{ $productCategory->id }}" @if ($product->product_category_id == $productCategory->id)
+                        selected
+                    @endif>{{ $productCategory->product_category }}</option>
                 @endforeach
             </select>
         </div>
@@ -31,7 +38,7 @@
     <div class="form-group row">
         <label for="code" class="col-sm-2 col-form-label">Kode Produk</label>
         <div  class="col-sm-2">
-            <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"  name="code" value="{{ $generatedCode }}" readonly>
+            <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"  name="code" value="{{ $product->code }}" disabled>
             @error('code')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -42,14 +49,14 @@
     <div class="form-group row">
         <label for="name" class="col-sm-2 col-form-label">Nama Produk</label>
         <div  class="col-sm-2">
-            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"  name="name" value="{{ old('name') }}">
+            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"  name="name" value="{{ $product->name }}" disabled>
             @error('name')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
         </div>
-        <button type="button" class="btn btn-primary col-md-2 offset-md-5" id="add_row" float="right">
+        <button type="button" class="btn btn-primary col-md-2 offset-md-5" id="add_row" float="right" disabled>
             Tambah data
         </button>
     </div>
@@ -63,35 +70,32 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <select class="form-control" id="uom" name="uoms[]">
-                    @foreach ($uoms as $uom)
-                        <option value="{{ $uom->id }}">{{ $uom->name }}</option>
-                    @endforeach
-                    </select>
-                </td>
-                <td><input type="number" name="conversions[]" class="form-control" value="1" /></td>
-                <td><input type="number" name="level[]" class="form-control" value="1" /></td>
-                <td><input type="number" name="price[]" class="form-control" value="100" /></td>
-                <td><button class="btn btn-danger" onclick="deleteRow(this)">Hapus</button></td>
-            </tr>
+            @foreach ($product->uoms as $item)
+                <tr>
+                    <td>
+                        <select class="form-control" id="uom" name="uoms[]" disabled>
+                        @foreach ($uoms as $uom)
+                            <option value="{{ $uom->id }}" @if ($item->pivot->uom_id==$uom->id)
+                                selected
+                            @endif>{{ $uom->name }}</option>
+                        @endforeach
+                        </select>
+                    </td>
+                    <td><input type="number" name="conversions[]" class="form-control" value="{{ $item->pivot->conversion }}" disabled/></td>
+                    <td><input type="number" name="level[]" class="form-control" value="{{ $item->pivot->level }}" disabled/></td>
+                    <td><button class="btn btn-danger" onclick="deleteRow(this)" disabled>Hapus</button></td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 @stop
-
 @section('footer')
-
 <div class="row">
     <div class="col-2">
         <a href="/product"><button type="button" class="btn btn-primary">Kembali</button></a>
     </div>
-    <div class="col-10 text-right">
-        <button type="submit" class="btn btn-primary">Simpan</a>
-    </div>
 </div>
 </form>
-
 @stop
 
 @section('js')
@@ -106,7 +110,6 @@
                 +'</td>'
                 +'<td><input type="number" name="conversions[]" class="form-control" value="1" /></td>'
                 +'<td><input type="number" name="level[]" class="form-control" value="1" /></td>'
-                +'<td><input type="number" name="price[]" class="form-control" value="100" /></td>'
                 +'<td><button class="btn btn-danger" onclick="deleteRow(this)">Hapus</button></td>'
                 +'</tr>';
 
@@ -120,28 +123,6 @@
     function deleteRow(e){
         $(e).parent().parent().remove();
     }
-
-
-    $('#productType').change(function(){
-        var id = document.getElementById("productType").value;
-
-        $.ajax({
-            method: "GET",
-            url: "{{ url('product-category/get-category') }}/"+id,
-            success: function (response) {
-                let productCategorySelect = $('#product_category_id');
-                productCategorySelect.empty();
-                productCategorySelect.append('<option selected="selected" value="0">--Pilih--</option>');
-                $.each(response['data'], function(i, item) {
-                    productCategorySelect.append($('<option>', {
-                        value: item.id,
-                        text: item.product_category
-                    }));
-                });
-            }
-
-        });
-    });
 
 </script>
 @stop

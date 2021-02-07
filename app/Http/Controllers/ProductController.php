@@ -53,9 +53,10 @@ class ProductController extends Controller
         $uoms = $request->input('uoms', []);
         $conversions = $request->input('conversions', []);
         $levels = $request->input('level', []);
+        $prices = $request->input('price', []);
         for ($i=0; $i < count($uoms); $i++) {
             if ($uoms[$i] != '') {
-                $product->uoms()->attach($uoms[$i], ['conversion' => $conversions[$i], 'level' => $levels[$i]]);
+                $product->uoms()->attach($uoms[$i], ['conversion' => $conversions[$i], 'level' => $levels[$i], 'price' =>$prices[$i]]);
             }
         }
 

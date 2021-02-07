@@ -96,9 +96,9 @@
     <div class="col-2">
         <a href="/delivery-request"><button type="button" class="btn btn-primary">Kembali</button></a>
     </div>
-    {{-- <div class="col-10 text-right">
-        <button type="submit" class="btn btn-primary">Simpan</a>
-    </div> --}}
+    <div class="col-10 text-right">
+        <a href="{{ $deliveryRequest->id }}/pdf"><button type="button" class="btn btn-primary">Print</button></a>
+    </div>
 </div>
 </form>
 @stop

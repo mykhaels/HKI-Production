@@ -85,7 +85,7 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
+    'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
 
@@ -146,7 +146,7 @@ return [
 
     'sidebar_mini' => true,
     'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
+    'sidebar_collapse_auto_size' => true,
     'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
@@ -231,15 +231,57 @@ return [
     */
 
     'menu' => [
-        ['header' => 'MASTER'],
+        ['header' => 'MASTER'
+        ],
         [
             'text' => 'Master Kategori Produk ',
             'url'  => 'product-category',
             'icon' => 'fas fa-bezier-curve',
         ],
         [
+            'text' => 'Master Supplier ',
+            'url'  => 'supplier',
+            'icon' => 'fas fa-bezier-curve',
+        ],
+        [
             'text' => 'Master Produk',
             'url'  => 'product',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        ['header' => 'PEMBELIAN'],
+        [
+            'text' => 'Pesanan Pembelian',
+            'url'  => 'purchase-order',
+            'icon' => 'fas fa-bezier-curve',
+        ],
+        [
+            'text' => 'Uang Muka Pembelian',
+            'url'  => 'initial-payment',
+            'icon' => 'fas fa-bezier-curve',
+        ],
+        [
+            'text' => 'Penerimaan Pembelian',
+            'url'  => 'good-receipt',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Retur Pembelian',
+            'url'  => 'retur',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Faktur Pembelian',
+            'url'  => 'invoice',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Pelunasan Pembelian',
+            'url'  => 'settlement',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Penghapusan Pembelian',
+            'url'  => 'writeoff',
             'icon' => 'fab fa-product-hunt',
         ],
         ['header' => 'PERSEDIAAN'],

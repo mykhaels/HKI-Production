@@ -83,6 +83,7 @@
                     </td>
                     <td><input type="number" name="conversions[]" class="form-control" value="{{ $item->pivot->conversion }}" disabled/></td>
                     <td><input type="number" name="level[]" class="form-control" value="{{ $item->pivot->level }}" disabled/></td>
+                    <td><input type="number" name="price[]" class="form-control" value="{{ $item->pivot->price }}" disabled/></td>
                     <td><button class="btn btn-danger" onclick="deleteRow(this)" disabled>Hapus</button></td>
                 </tr>
             @endforeach
@@ -110,6 +111,7 @@
                 +'</td>'
                 +'<td><input type="number" name="conversions[]" class="form-control" value="1" /></td>'
                 +'<td><input type="number" name="level[]" class="form-control" value="1" /></td>'
+                +'<td><input type="number" name="price[]" class="form-control" value="100" /></td>'
                 +'<td><button class="btn btn-danger" onclick="deleteRow(this)">Hapus</button></td>'
                 +'</tr>';
 

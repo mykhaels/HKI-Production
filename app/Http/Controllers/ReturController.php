@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Retur;
+use App\GoodReceipt;
+use App\Supplier;
 use Illuminate\Http\Request;
-use App\ProductionOrder;
-use App\Uom;
-use App\DeliveryRequest;
-use PDF;
 
-class DeliveryRequestController extends Controller
+class ReturController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('production.delivery-request.index',  ['deliveryRequests'=>DeliveryRequest::paginate(10)]);
+        return view('purchasing.retur.index',  ['returs'=>Retur::paginate(10)]);
     }
 
     /**
@@ -27,7 +26,7 @@ class DeliveryRequestController extends Controller
      */
     public function create()
     {
-        $object = DeliveryRequest::latest()->first();
+        $object = GoodReceipt::latest()->first();
         $id=0;
         if($object==null){
             $id++;
@@ -35,10 +34,9 @@ class DeliveryRequestController extends Controller
             $id=$object->id;
             $id++;
         }
-        $generatedCode='DR-'. str_pad($id, 5, '0', STR_PAD_LEFT);
-        $uoms = Uom::all();
-        $productionOrders=ProductionOrder::where('status','=',1)->get();
-        return view('production.delivery-request.create', compact('productionOrders','uoms','generatedCode'));
+        $generatedCode='RTR-'. str_pad($id, 5, '0', STR_PAD_LEFT);
+        $suppliers=Supplier::all();
+        return view('purchasing.retur.create', compact('generatedCode','suppliers'));
     }
 
     /**
@@ -52,21 +50,23 @@ class DeliveryRequestController extends Controller
         $request->validate([
             'code' => ['required', 'max:100'],
             'transaction_date' => ['required'],
-            'production_order_id' => ['required','not_in:0'],
+            'supplier_id' => ['required','not_in:0'],
+            'good_receipt_id' => ['required','not_in:0'],
+            'quantities.*' => ['lte:qtyBPB.*']
         ],[
             'code.required' => 'Kode harus diisi !',
             'transaction_date.required' => 'Tanggal harus diisi !',
-            'production_order_id.not_in' => 'Perintah Produksi harus dipilih !',
+            'supplier_id.not_in' => 'Supplier harus dipilih !',
+            'good_receipt_id.not_in' => 'Kode BPB harus dipilih !',
+            'quantities.*.lte' => 'Qty tidak bole melebihi Qty BPB !',
         ]);
-
-        $deliveryRequest = DeliveryRequest::create($request->all());
-
+        $retur = Retur::create($request->all());
         $uoms = $request->input('uoms', []);
         $qtys = $request->input('quantities', []);
         $products = $request->input('products', []);
         for ($i=0; $i < count($uoms); $i++) {
             if ($uoms[$i] != '') {
-                $deliveryRequest->deliveryRequestDetails()->create(
+                $retur->returDetails()->create(
                     [
                     'product_id'=> $products[$i],
                     'qty'=>$qtys[$i],
@@ -74,30 +74,28 @@ class DeliveryRequestController extends Controller
                     ]);
             }
         }
-
-        ProductionOrder::where('id',$request->input('production_order_id'))->update(['status'=>2]);
-
-        return redirect('/delivery-request')->with('status','Data Permintaan Bahan Baku Berhasil Disimpan !');
+        GoodReceipt::where('id',$request->input('good_receipt_id'))->update(['status'=>2]);
+        return redirect('/retur')->with('status','Data Retur Berhasil Disimpan !');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\DeliveryNote  $deliveryNote
+     * @param  \App\Retur  $retur
      * @return \Illuminate\Http\Response
      */
-    public function show(DeliveryRequest $deliveryRequest)
+    public function show(Retur $retur)
     {
-        return view('production.delivery-request.show',compact('deliveryRequest'));
+        return view('purchasing.retur.show',compact('retur'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DeliveryNote  $deliveryNote
+     * @param  \App\Retur  $retur
      * @return \Illuminate\Http\Response
      */
-    public function edit(DeliveryNote $deliveryNote)
+    public function edit(Retur $retur)
     {
         //
     }
@@ -106,10 +104,10 @@ class DeliveryRequestController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DeliveryNote  $deliveryNote
+     * @param  \App\Retur  $retur
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DeliveryNote $deliveryNote)
+    public function update(Request $request, Retur $retur)
     {
         //
     }
@@ -117,21 +115,25 @@ class DeliveryRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DeliveryNote  $deliveryNote
+     * @param  \App\Retur  $retur
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeliveryNote $deliveryRequest)
+    public function destroy(Retur $retur)
     {
         //
     }
 
-    public function print(DeliveryRequest $deliveryRequest){
-        // share data to view
-        view()->share('deliveryRequest', $deliveryRequest);
-        $pdf = PDF::loadView('production.delivery-request.pdf', $deliveryRequest);
+    public function getListBPBSupplier(Request $request){
+        if($request->ajax()){
+            $goodReceipts = GoodReceipt::where('supplier_id',$request->id)->where('status',1)->orderBy('id')->get();
+            return compact('goodReceipts');
+        }
+    }
 
-        // dd($deliveryRequest);
-        // download PDF file with download method
-        return $pdf->download('pdf.pdf');
+    public function getGoodReceipt(Request $request){
+        if($request->ajax()){
+            $goodReceipt = GoodReceipt::find($request->id);
+            return response()->json($goodReceipt);
+        }
     }
 }

@@ -31,3 +31,8 @@ You can publish the configuration file of Laravel charts by running the followin
 php artisan vendor:publish --tag=charts
 This will create a new file under app/config/charts.php that you can edit to modify some of the options of Laravel Charts.
 
+3. Installation Barryvdh Dom PDF
+
+Using Composer to install 
+
+composer require barryvdh/laravel-dompdf
