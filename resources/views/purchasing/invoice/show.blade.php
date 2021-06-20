@@ -112,7 +112,7 @@
 @section('footer')
 <div class="row">
     <div class="col-2">
-        <a href="/purchase-order"><button type="button" class="btn btn-primary">Kembali</button></a>
+        <a href="/invoice"><button type="button" class="btn btn-primary">Kembali</button></a>
     </div>
 </div>
 </form>

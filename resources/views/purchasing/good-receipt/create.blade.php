@@ -117,11 +117,12 @@
                                     +'</div>'
                                 +'</div>'
                             +'</td>'
-                            +'<td scope="col" class="col-4"><input type="number" name="quantities[]" class="form-control @error("quantities.*") is-invalid @enderror" value="'+item.qty+'"/></td>'
+                            +'<td scope="col" class="col-4"><input type="number" name="quantities[]" class="form-control @error("quantities.*") is-invalid @enderror" value="'+item.qty+'" oninput="validity.valid||(value=\'0\');"/></td>'
                             +'<td scope="col" class="col-4">'
-                                +'<select class="form-control" id="uom" name="uoms[]" readonly> '
+                                +'<select class="form-control" id="uom" disabled> '
                                     +'<option value="'+item.uom.id+'">'+item.uom.name+'</option>'
                                 +'</select>'
+                                +'<input type="hidden" name="uoms[]" class="form-control" value="'+item.uom.id+'" readonly />'
                             +'</td>'
                             +'<input type="hidden" name="qtyPO[]"  value="'+item.qty+'" readonly />'
                         +'</tr>';
@@ -138,7 +139,7 @@
         $('#po').append($(new Option("--Pilih--", 0)));
         $.ajax({
             method : "GET",
-            url : "{{ url('/initial-payment/getListPOSupplier')}}",
+            url : "{{ url('/good-receipt/getListPOSupplier')}}",
             data:{'id':$(this).val()},
             success:function(response){
                 $.each(response.purchaseOrders, function(index,item){

@@ -19,7 +19,7 @@
         <tr>
             <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >#</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Kode - Nama Supplier</th>
-            <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Status Produk</th>
+            <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Status Supplier</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Lihat Detail</th>
             <th scope="col" class="sorting" tabindex="0" aria-controls="product-table" rowspan="1" colspan="1" >Ubah Status</th>
         </tr>

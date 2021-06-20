@@ -16,7 +16,7 @@ class ReturController extends Controller
      */
     public function index()
     {
-        return view('purchasing.retur.index',  ['returs'=>Retur::paginate(10)]);
+        return view('purchasing.retur.index',  ['returs' => Retur::paginate(10)]);
     }
 
     /**
@@ -26,17 +26,17 @@ class ReturController extends Controller
      */
     public function create()
     {
-        $object = GoodReceipt::latest()->first();
-        $id=0;
-        if($object==null){
+        $object = Retur::latest()->first();
+        $id = 0;
+        if ($object == null) {
             $id++;
-        }else{
-            $id=$object->id;
+        } else {
+            $id = $object->id;
             $id++;
         }
-        $generatedCode='RTR-'. str_pad($id, 5, '0', STR_PAD_LEFT);
-        $suppliers=Supplier::all();
-        return view('purchasing.retur.create', compact('generatedCode','suppliers'));
+        $generatedCode = 'RTR-' . str_pad($id, 5, '0', STR_PAD_LEFT);
+        $suppliers = Supplier::all();
+        return view('purchasing.retur.create', compact('generatedCode', 'suppliers'));
     }
 
     /**
@@ -50,10 +50,10 @@ class ReturController extends Controller
         $request->validate([
             'code' => ['required', 'max:100'],
             'transaction_date' => ['required'],
-            'supplier_id' => ['required','not_in:0'],
-            'good_receipt_id' => ['required','not_in:0'],
+            'supplier_id' => ['required', 'not_in:0'],
+            'good_receipt_id' => ['required', 'not_in:0'],
             'quantities.*' => ['lte:qtyBPB.*']
-        ],[
+        ], [
             'code.required' => 'Kode harus diisi !',
             'transaction_date.required' => 'Tanggal harus diisi !',
             'supplier_id.not_in' => 'Supplier harus dipilih !',
@@ -64,18 +64,19 @@ class ReturController extends Controller
         $uoms = $request->input('uoms', []);
         $qtys = $request->input('quantities', []);
         $products = $request->input('products', []);
-        for ($i=0; $i < count($uoms); $i++) {
+        for ($i = 0; $i < count($uoms); $i++) {
             if ($uoms[$i] != '') {
                 $retur->returDetails()->create(
                     [
-                    'product_id'=> $products[$i],
-                    'qty'=>$qtys[$i],
-                    'uom_id'=>$uoms[$i]
-                    ]);
+                        'product_id' => $products[$i],
+                        'qty' => $qtys[$i],
+                        'uom_id' => $uoms[$i]
+                    ]
+                );
             }
         }
-        GoodReceipt::where('id',$request->input('good_receipt_id'))->update(['status'=>2]);
-        return redirect('/retur')->with('status','Data Retur Berhasil Disimpan !');
+        GoodReceipt::where('id', $request->input('good_receipt_id'))->update(['status' => 2]);
+        return redirect('/retur')->with('status', 'Data Retur Berhasil Disimpan !');
     }
 
     /**
@@ -86,7 +87,7 @@ class ReturController extends Controller
      */
     public function show(Retur $retur)
     {
-        return view('purchasing.retur.show',compact('retur'));
+        return view('purchasing.retur.show', compact('retur'));
     }
 
     /**
@@ -123,15 +124,17 @@ class ReturController extends Controller
         //
     }
 
-    public function getListBPBSupplier(Request $request){
-        if($request->ajax()){
-            $goodReceipts = GoodReceipt::where('supplier_id',$request->id)->where('status',1)->orderBy('id')->get();
+    public function getListBPBSupplier(Request $request)
+    {
+        if ($request->ajax()) {
+            $goodReceipts = GoodReceipt::where('supplier_id', $request->id)->where('status', 1)->orderBy('id')->get();
             return compact('goodReceipts');
         }
     }
 
-    public function getGoodReceipt(Request $request){
-        if($request->ajax()){
+    public function getGoodReceipt(Request $request)
+    {
+        if ($request->ajax()) {
             $goodReceipt = GoodReceipt::find($request->id);
             return response()->json($goodReceipt);
         }

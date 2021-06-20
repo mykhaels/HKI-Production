@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GoodReceipt extends Model
 {
     protected $fillable = ['code','transaction_date','purchase_order_id','supplier_id'];
-    protected $with =['goodReceiptDetails','purchaseOrder'];
+    protected $with =['goodReceiptDetails','purchaseOrder','retur'];
 
     protected $attributes = [
         'status' => 1,
@@ -24,5 +24,9 @@ class GoodReceipt extends Model
     public function goodReceiptDetails()
     {
         return $this->hasMany('App\GoodReceiptDetail');
+    }
+    public function retur()
+    {
+        return $this->hasOne('App\Retur');
     }
 }

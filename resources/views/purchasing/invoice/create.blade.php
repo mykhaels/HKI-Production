@@ -128,8 +128,13 @@
                 url : "{{ url('/invoice/getGoodReceiptPO')}}",
                 data:{'id':bpb.val()},
                 success:function(response){
-                    console.log(response);
                     $.each(response.purchase_order.purchase_order_details, function(index,item){
+                        let qty = item.qty;
+                        $.each(response.good_receipt_details, function(indexGd,i){
+                            if(item.product.id=i.product.id){
+                                qty=i.qty;
+                            }
+                        });
                         let tax = item.tax_status==1 ? "ya" : "tidak";
                         let row =  '<tr scope="row" class="d-flex">'
                             +'<td scope="col"  class="col-3">'
@@ -140,11 +145,12 @@
                                     +'</div>'
                                 +'</div>'
                             +'</td>'
-                            +'<td scope="col" class="col-1"><input type="number" name="quantities[]" class="form-control" value="'+item.qty+'" readonly /></td>'
+                            +'<td scope="col" class="col-1"><input type="number" name="quantities[]" class="form-control" value="'+qty+'" readonly /></td>'
                             +'<td scope="col" class="col-2">'
-                                +'<select class="form-control" id="uom" name="uoms[]" readonly> '
+                                +'<select class="form-control" id="uom" disabled> '
                                     +'<option value="'+item.uom.id+'">'+item.uom.name+'</option>'
                                 +'</select>'
+                                +'<input type="hidden" name="uoms[]" class="form-control" value="'+item.uom.id+'" />'
                             +'</td>'
                             +'<td scope="col" class="col-2"><input type="number" name="prices[]" class="form-control" value="'+item.price+'" readonly /></td>'
                             +'<td scope="col" class="col-1"><input type="number" name="discounts[]" class="form-control" value="'+item.discount+'" readonly /></td>'

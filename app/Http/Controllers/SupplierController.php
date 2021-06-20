@@ -119,6 +119,6 @@ class SupplierController extends Controller
             'status' => $status
         ]);
 
-        return redirect('/Supplier')->with('status','Status Supplier Berhasil Diupdate !');
+        return redirect('/supplier')->with('status','Status Supplier Berhasil Diupdate !');
     }
 }

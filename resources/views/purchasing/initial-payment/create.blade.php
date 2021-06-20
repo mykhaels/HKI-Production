@@ -144,7 +144,7 @@
                             +'</td>'
                             +'<td scope="col" class="col-1"><input type="number" name="quantities[]" class="form-control" value="'+item.qty+'" readonly /></td>'
                             +'<td scope="col" class="col-2">'
-                                +'<select class="form-control" id="uom" name="uoms[]" readonly> '
+                                +'<select class="form-control" id="uom" disabled> '
                                     +'<option value="'+item.uom.id+'">'+item.uom.name+'</option>'
                                 +'</select>'
                             +'</td>'

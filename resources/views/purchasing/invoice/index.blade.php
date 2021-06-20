@@ -48,7 +48,7 @@
                     <form action="invoice/updateStatus/{{ $item->id }}" method="post">
                         @method('patch')
                         @csrf
-                        <button type="submit" class="btn btn-success">Batal Faktur</button>
+                        <button type="submit" class="btn btn-success" @if ($item->status!=1) disabled @endif>Batal Faktur</button>
                     </form>
                 </td>
             </tr>

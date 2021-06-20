@@ -141,12 +141,22 @@ class InvoiceController extends Controller
     public function getGoodReceiptPO(Request $request){
         if($request->ajax()){
             $goodReceipt = GoodReceipt::find($request->id);
-            return response()->json($goodReceipt);
-        }
+            if($goodReceipt->retur!=null){
+                foreach($goodReceipt->goodReceiptDetails as $gd){
+                    foreach($goodReceipt->retur->returDetails as $rt){
+                        if($gd->product->id==$rt->product->id){
+                            $gd->qty = $gd->qty-$rt->qty;
+                        }
+                    }
+                }
+            }
+
+             return response()->json($goodReceipt);
+         }
     }
 
     public function updateStatus(Invoice $invoice){
-        Invoice::where('id',$invoice->id)->update(['status'=>2]);
+        Invoice::where('id',$invoice->id)->update(['status'=>3]);
         return redirect('/invoice')->with('status','Faktur Berhasil dibatalkan !');
     }
 }

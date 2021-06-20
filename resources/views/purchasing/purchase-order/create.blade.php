@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="col-1"><input type="number" name="quantities[]" class="form-control" value="1" onChange="calculateTotal()"/></td>
+                <td class="col-1"><input type="number" id="qty" name="quantities[]" min="0" class="form-control" value="1" onkeyup="calculateTotal()" oninput="validity.valid||(value='0');"/></td>
                 <td class="col-2">
                     <select class="form-control" id="uom" name="uoms[]" onChange="uomChange(this)">
                     @foreach ($uoms as $uom)
@@ -95,8 +95,8 @@
                     @endforeach
                     </select>
                 </td>
-                <td class="col-1"><input type="number" name="prices[]" class="form-control" value="1000" readonly /></td>
-                <td class="col-1"><input type="number" name="discounts[]" class="form-control" value="0" onChange="calculateTotal()"/></td>
+                <td class="col-1"><input type="number" name="prices[]"  min="0" class="form-control" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value='0');"/></td>
+                <td class="col-1"><input type="number" name="discounts[]" min="0" class="form-control" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value='0');"/></td>
                 <td class="col-1">
                     <div>
                         <select class="form-control" id="tax" name="taxs[]" onChange="calculateTotal()">
@@ -195,7 +195,7 @@
                         +'</div>'
                     +'</div>'
                 +'</td>'
-                +'<td class="col-1"><input type="number" name="quantities[]" class="form-control" value="1" onChange="calculateTotal()"/></td>'
+                +'<td class="col-1"><input type="number" name="quantities[]" min="0" class="form-control" value="1" onkeyup="calculateTotal()" oninput="validity.valid||(value=\'0\');"/></td>'
                 +'<td class="col-2">'
                     +'<select class="form-control" id="uom" name="uoms[]" onChange="uomChange(this)">'
                     +'@foreach ($uoms as $uom)'
@@ -203,8 +203,8 @@
                     +'@endforeach'
                     +'</select>'
                 +'</td>'
-                +'<td class="col-1"><input type="number" name="prices[]" class="form-control" value="1000" readonly /></td>'
-                +'<td class="col-1"><input type="number" name="discounts[]" class="form-control" value="0" onChange="calculateTotal()"/></td>'
+                +'<td class="col-1"><input type="number" name="prices[]" class="form-control" min="0" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value=\'0\');"/></td>'
+                +'<td class="col-1"><input type="number" name="discounts[]" min="0" class="form-control" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value=\'0\');"/></td>'
                 +'<td class="col-1">'
                 +'    <div>'
                 +'        <select class="form-control" id="tax" name="taxs[]" onChange="calculateTotal()">'
@@ -226,6 +226,7 @@
 
     function deleteRow(e){
         $(e).parent().parent().remove();
+        calculateTotal();
     }
 
     $('#search').keypress(function(e){
@@ -246,6 +247,7 @@
 
     }
 
+
     function openModel(e){
         $('#search').val("");
         lookUpProductModel("");
@@ -264,10 +266,10 @@
             $(selectedRow[1]).val(selectedModelRow.find('td:first').html());
             $(selectedUoms).empty();
             $(selectedUoms).append(selectedModelRow.find('td:nth-child(4)').html());
-            let priceRow = $(selectedUoms).parent().siblings(3).children()[2];
-            $.when(updatePrice($(selectedUoms).val(),$(selectedRow[1]).val(),priceRow)).done(function(){
-                calculateTotal();
-            });
+            // let priceRow = $(selectedUoms).parent().siblings(3).children()[2];
+            // $.when(updatePrice($(selectedUoms).val(),$(selectedRow[1]).val(),priceRow)).done(function(){
+            //     calculateTotal();
+            // });
         }
 
     }
@@ -304,9 +306,9 @@
         let uomId = $(e).val();
         let productId = $($(e).parent().siblings(0).children()[0]).find('input[name="products[]"]').val();
         let priceRow = $(e).parent().siblings(3).children()[2];
-        $.when(updatePrice(uomId,productId,priceRow)).done(function(){
-            calculateTotal();
-        });
+        // $.when(updatePrice(uomId,productId,priceRow)).done(function(){
+        //     calculateTotal();
+        // });
 
 
     };
@@ -322,6 +324,7 @@
         });
     }
 
+
     function calculateTotal(){
         let subtotal = 0;
         let ppn = 0;
@@ -332,6 +335,11 @@
             let discount=$($('input[name="discounts[]"]').get(index)).val();
             if(price=="") return;
             let totalPerItem = qty*price-discount;
+            if(totalPerItem<0) {
+                $($('input[name="discounts[]"]').get(index)).val("0");
+                discount=0;
+                totalPerItem=qty*price-discount;
+            }
             let ppnPerItem = (qty*price-discount)*0.1;
             subtotal+=totalPerItem;
             if($(value).val()==1){

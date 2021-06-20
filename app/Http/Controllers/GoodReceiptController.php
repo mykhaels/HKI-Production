@@ -122,4 +122,11 @@ class GoodReceiptController extends Controller
     {
         //
     }
+
+    public function getListPOSupplier(Request $request){
+        if($request->ajax()){
+            $purchaseOrders = PurchaseOrder::where('supplier_id',$request->id)->where('status',1)->orderBy('id')->get();
+            return compact('purchaseOrders');
+        }
+    }
 }

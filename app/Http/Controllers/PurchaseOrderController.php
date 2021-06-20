@@ -132,7 +132,7 @@ class PurchaseOrderController extends Controller
 
     public function updateStatus(PurchaseOrder $purchaseOrder){
         PurchaseOrder::where('id',$purchaseOrder->id)->update(['status'=>2]);
-        return redirect('/purchaseOrder')->with('status','PO Berhasil dibatalkan !');
+        return redirect('/purchase-order')->with('status','PO Berhasil dibatalkan !');
     }
 
 

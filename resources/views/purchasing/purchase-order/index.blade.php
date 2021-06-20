@@ -44,7 +44,7 @@
                     <form action="purchase-order/updateStatus/{{ $item->id }}" method="post">
                         @method('patch')
                         @csrf
-                        <button type="submit" class="btn btn-success">Batal PO</button>
+                        <button type="submit" class="btn btn-success" @if ($item->status!=1) disabled @endif>Batal PO</button>
                     </form>
                 </td>
             </tr>

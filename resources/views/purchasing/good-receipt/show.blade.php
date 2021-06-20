@@ -59,7 +59,7 @@
                     </td>
                     <td class="col-4"><input type="number" name="quantities[]" class="form-control" readonly value="{{ $item->qty }}" /></td>
                     <td class="col-4">
-                        <select class="form-control" id="uom" name="uoms[]" readonly >
+                        <select class="form-control" id="uom" name="uoms[]" disabled >
                             <option value="{{ $item->uom->id }}">{{ $item->uom->name }}</option>
                         </select>
                     </td>

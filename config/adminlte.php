@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'HKI',
+    'title' => 'Admin',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => 'Admin DTO',
-    'logo_img' => '/vendor/adminlte/dist/img/Logo.jpeg',
+    'logo' => 'PT Bernadi Utama',
+    'logo_img' => '/vendor/adminlte/dist/img/Logo2.jpg',
     'logo_img_class' => 'brand-image',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'DTO',
+    'logo_img_alt' => 'LOGO Bernadi',
 
     /*
     |--------------------------------------------------------------------------
@@ -126,9 +126,9 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-light-primary elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-dark navbar-lightblue',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -248,6 +248,11 @@ return [
             'url'  => 'product',
             'icon' => 'fab fa-product-hunt',
         ],
+        [
+            'text' => 'Master Pelanggan',
+            'url'  => 'customer',
+            'icon' => 'fab fa-product-hunt',
+        ],
         ['header' => 'PEMBELIAN'],
         [
             'text' => 'Pesanan Pembelian',
@@ -284,6 +289,53 @@ return [
             'url'  => 'writeoff',
             'icon' => 'fab fa-product-hunt',
         ],
+        ['header' => 'PENJUALAN'],
+        [
+            'text' => 'Pesanan Penjualan',
+            'url'  => 'sales-order',
+            'icon' => 'fas fa-bezier-curve',
+        ],
+        [
+            'text' => 'Uang Muka Penjualan',
+            'url'  => 'initial-payment-sales',
+            'icon' => 'fas fa-bezier-curve',
+        ],
+        [
+            'text' => 'Surat Jalan',
+            'url'  => 'sales-delivery-note',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Retur Penjualan',
+            'url'  => 'retur-sales',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Faktur Penjualan',
+            'url'  => 'sales-invoice',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Pelunasan Penjualan',
+            'url'  => 'sales-settlement',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Penghapusan Penjualan',
+            'url'  => 'sales-writeoff',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Laporan Penjualan',
+            'url'  => 'report/sales-report',
+            'icon' => 'fab fa-product-hunt',
+        ],
+        [
+            'text' => 'Laporan Pembayaran',
+            'url'  => 'report/payment-report',
+            'icon' => 'fab fa-product-hunt',
+        ],
+
         ['header' => 'PERSEDIAAN'],
         [
             'text' => 'Pengeluaran Produksi ',

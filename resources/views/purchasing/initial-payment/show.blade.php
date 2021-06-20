@@ -12,13 +12,13 @@
     <div class="form-group row">
         <label for="code" class="col-sm-2 col-form-label">Kode DP</label>
         <div  class="col-sm-2">
-            <input type="text" class="form-control"  name="code" value="{{ $initialPayment->code }}" readonly>
+            <input type="text" class="form-control"  name="code" value="{{ $initialPayment->code }}" disabled>
         </div>
     </div>
     <div class="form-group row">
         <label for="transaction_date" class="col-sm-2 col-form-label">Tanggal DP</label>
         <div  class="col-sm-2">
-            <input type="date" class="form-control" id="transaction_date"  name="transaction_date" value="{{ $initialPayment->transaction_date }}" readonly>
+            <input type="date" class="form-control" id="transaction_date"  name="transaction_date" value="{{ $initialPayment->transaction_date }}" disabled>
         </div>
     </div>
     <div class="form-group row">
@@ -57,22 +57,22 @@
                     <td class="col-3">
                         <div class="form-row">
                             <div class="col">
-                                <input type="input" name="codes[]" class="form-control"  readonly readonly value="{{ $item->product->code }}-{{ $item->product->name }}"/>
-                                <input type="hidden" name="products[]" class="form-control"  readonly value="{{ $item->product->id }}" />
+                                <input type="input" name="codes[]" class="form-control"  disabled disabled value="{{ $item->product->code }}-{{ $item->product->name }}"/>
+                                <input type="hidden" name="products[]" class="form-control"  disabled value="{{ $item->product->id }}" />
                             </div>
                         </div>
                     </td>
-                    <td class="col-1"><input type="number" name="quantities[]" class="form-control" readonly value="{{ $item->qty }}" /></td>
+                    <td class="col-1"><input type="number" name="quantities[]" class="form-control" disabled value="{{ $item->qty }}" /></td>
                     <td class="col-2">
-                        <select class="form-control" id="uom" name="uoms[]" readonly >
+                        <select class="form-control" id="uom" name="uoms[]" disabled >
                             <option value="{{ $item->uom->id }}">{{ $item->uom->name }}</option>
                         </select>
                     </td>
-                    <td class="col-2"><input type="number" name="prices[]" class="form-control" readonly value="{{ $item->price }}" /></td>
-                    <td class="col-1"><input type="number" name="discounts[]" class="form-control" readonly value="{{ $item->discount }}"/></td>
+                    <td class="col-2"><input type="number" name="prices[]" class="form-control" disabled value="{{ $item->price }}" /></td>
+                    <td class="col-1"><input type="number" name="discounts[]" class="form-control" disabled value="{{ $item->discount }}"/></td>
                     <td class="col-1">
                         <div>
-                            <select class="form-control" id="tax" name="taxs[]" readonly>
+                            <select class="form-control" id="tax" name="taxs[]" disabled>
                                 <option value="1" @if ($item->tax_status == 1)
                                     selected
                                 @endif>Ya</option>
@@ -82,7 +82,7 @@
                             </select>
                         </div>
                     </td>
-                    <td class="col-2"><input type="number" name="totals[]" class="form-control" readonly value="{{ $item->total }}"/></td>
+                    <td class="col-2"><input type="number" name="totals[]" class="form-control" disabled value="{{ $item->total }}"/></td>
                 </tr>
                 @endforeach
             </tbody>
@@ -90,19 +90,19 @@
     </div>
     <div class="form-group d-flex justify-content-end">
         <label for="subtotal-input" class="col-md-1 m-1">Sub Total</label>
-        <input type="input" class="form-control col-md-2" id="subtotal-input" name="subtotal" readonly value="{{ $initialPayment->purchaseOrder->subtotal }}">
+        <input type="input" class="form-control col-md-2" id="subtotal-input" name="subtotal" disabled value="{{ $initialPayment->purchaseOrder->subtotal }}">
     </div>
     <div class="form-group d-flex justify-content-end">
         <label for="ppn-input" class="col-md-1 m-1">PPN</label>
-        <input type="input" class="form-control col-md-2" id="ppn-input" name="ppn" readonly value="{{ $initialPayment->purchaseOrder->ppn }}">
+        <input type="input" class="form-control col-md-2" id="ppn-input" name="ppn" disabled value="{{ $initialPayment->purchaseOrder->ppn }}">
     </div>
     <div class="form-group d-flex justify-content-end">
         <label for="total-input" class="col-md-1 m-1">Total</label>
-        <input type="input" class="form-control col-md-2" id="total-input" name="total" readonly value="{{ $initialPayment->purchaseOrder->total }}">
+        <input type="input" class="form-control col-md-2" id="total-input" name="total" disabled value="{{ $initialPayment->purchaseOrder->total }}">
     </div>
     <div class="form-group d-flex justify-content-end">
         <label for="total-input" class="col-md-1 m-1">DP</label>
-        <input type="number" class="form-control col-md-2  @error('dp') is-invalid @enderror" id="dp-input" name="dp" readonly value="{{ $initialPayment->dp }}">
+        <input type="number" class="form-control col-md-2  @error('dp') is-invalid @enderror" id="dp-input" name="dp" disabled value="{{ $initialPayment->dp }}">
     </div>
     @stop
 
