@@ -83,7 +83,7 @@ class ProductCategoryController extends Controller
      */
     public function show(ProductCategory $productCategory)
     {
-        //
+        return view('master.product-category.show',compact('productCategory'));
     }
 
     /**

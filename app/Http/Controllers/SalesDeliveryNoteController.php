@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\SalesDeliveryNote;
 use App\SalesOrder;
 use App\Customer;
+use App\Journal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SalesDeliveryNoteController extends Controller
 {
@@ -60,21 +62,45 @@ class SalesDeliveryNoteController extends Controller
             'sales_order_id.not_in' => 'Kode SO harus dipilih !',
             'quantities.*.lte' => 'Qty tidak bole melebihi Qty SO !',
         ]);
-        $salesDeliveryNote = SalesDeliveryNote::create($request->all());
-        $uoms = $request->input('uoms', []);
-        $qtys = $request->input('quantities', []);
-        $products = $request->input('products', []);
-        for ($i=0; $i < count($uoms); $i++) {
-            if ($uoms[$i] != '') {
-                $salesDeliveryNote->salesDeliveryNoteDetails()->create(
-                    [
-                    'product_id'=> $products[$i],
-                    'qty'=>$qtys[$i],
-                    'uom_id'=>$uoms[$i]
-                    ]);
+        try {
+            DB::beginTransaction();
+            $salesDeliveryNote = SalesDeliveryNote::create($request->all());
+            $uoms = $request->input('uoms', []);
+            $qtys = $request->input('quantities', []);
+            $products = $request->input('products', []);
+            for ($i=0; $i < count($uoms); $i++) {
+                if ($uoms[$i] != '') {
+                    $salesDeliveryNote->salesDeliveryNoteDetails()->create(
+                        [
+                        'product_id'=> $products[$i],
+                        'qty'=>$qtys[$i],
+                        'uom_id'=>$uoms[$i]
+                        ]);
+                }
             }
+            SalesOrder::where('id',$request->input('sales_order_id'))->update(['status'=>3]);
+
+            $journal = Journal::create([
+                'code'=>$request->code,
+                'transaction_date'=>$request->transaction_date
+            ]);
+            $journal->journalDetails()->createMany([
+                [
+                    'coa_id' => 607,
+                    'account' => 'Debit',
+                    'total' => 0
+                ],
+                [
+                    'coa_id' => 554,
+                    'account' => 'Kredit',
+                    'total' => 0
+                ]
+            ]);
+            DB::commit();
+
+        } catch (Throwable $e) {
+            DB::rollback();
         }
-        SalesOrder::where('id',$request->input('sales_order_id'))->update(['status'=>3]);
         return redirect('/sales-delivery-note')->with('status','Data SJ Berhasil Disimpan !');
     }
 
@@ -86,7 +112,8 @@ class SalesDeliveryNoteController extends Controller
      */
     public function show(SalesDeliveryNote $salesDeliveryNote)
     {
-        return view('sales.sales-delivery-note.show',compact('salesDeliveryNote'));
+        $journal = Journal::where('code',$salesDeliveryNote->code)->first();
+        return view('sales.sales-delivery-note.show',compact('salesDeliveryNote','journal'));
     }
 
     /**

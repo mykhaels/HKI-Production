@@ -105,7 +105,44 @@
     <input type="input" class="form-control col-md-2" id="total-input" name="total" readonly value="{{ $salesInvoice->total }}">
 </div>
 
-
+    <!-- Modal -->
+    <div class="modal fade" id="modalTable" tabindex="-1" role="dialog" aria-labelledby="modalTableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalHeader">Jurnal</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <table id="modal_table" class="table table-bordered table-hover dataTable dtr-inline" role="grid">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" style="display: none">ID</th>
+                            <th scope="col">Kode</th>
+                            <th scope="col">D/K</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($journal->journalDetails as $item)
+                            <tr>
+                                <td style='display:none'>{{ $item->id }}</td>
+                                <td>{{ $item->coa->code }}-{{ $item->coa->name }}</td>
+                                <td>{{ $item->account }}</td>
+                                <td>{{ $item->total }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
 @stop
 
@@ -114,7 +151,17 @@
     <div class="col-2">
         <a href="/sales-invoice"><button type="button" class="btn btn-primary">Kembali</button></a>
     </div>
+    <div class="col-10 text-right">
+        <button type="button" class="btn btn-primary open-modal" onclick="openModel()">Lihat Jurnal</button>
+    </div>
 </div>
 </form>
 @stop
 
+@section('js')
+<script>
+    function openModel(){
+        $('#modalTable').modal('show');
+    }
+</script>
+@stop

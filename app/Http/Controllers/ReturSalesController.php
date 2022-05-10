@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\ReturSales;
 use App\SalesDeliveryNote;
 use App\Customer;
+use App\Journal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReturSalesController extends Controller
 {
@@ -60,22 +62,45 @@ class ReturSalesController extends Controller
             'sales_delivery_note_id.not_in' => 'Kode SJ harus dipilih !',
             'quantities.*.lte' => 'Qty tidak bole melebihi Qty SJ !',
         ]);
-        $returSales = ReturSales::create($request->all());
-        $uoms = $request->input('uoms', []);
-        $qtys = $request->input('quantities', []);
-        $products = $request->input('products', []);
-        for ($i = 0; $i < count($uoms); $i++) {
-            if ($uoms[$i] != '') {
-                $returSales->returSalesDetails()->create(
-                    [
-                        'product_id' => $products[$i],
-                        'qty' => $qtys[$i],
-                        'uom_id' => $uoms[$i]
-                    ]
-                );
+        try {
+            DB::beginTransaction();
+            $returSales = ReturSales::create($request->all());
+            $uoms = $request->input('uoms', []);
+            $qtys = $request->input('quantities', []);
+            $products = $request->input('products', []);
+            for ($i = 0; $i < count($uoms); $i++) {
+                if ($uoms[$i] != '') {
+                    $returSales->returSalesDetails()->create(
+                        [
+                            'product_id' => $products[$i],
+                            'qty' => $qtys[$i],
+                            'uom_id' => $uoms[$i]
+                        ]
+                    );
+                }
             }
+            SalesDeliveryNote::where('id', $request->input('sales_delivery_note_id'))->update(['status' => 2]);
+            $journal = Journal::create([
+                'code'=>$request->code,
+                'transaction_date'=>$request->transaction_date
+            ]);
+            $journal->journalDetails()->createMany([
+                [
+                    'coa_id' => 607,
+                    'account' => 'Kredit',
+                    'total' => 0
+                ],
+                [
+                    'coa_id' => 554,
+                    'account' => 'Debit',
+                    'total' => 0
+                ]
+            ]);
+            DB::commit();
+
+        } catch (Throwable $e) {
+            DB::rollback();
         }
-        SalesDeliveryNote::where('id', $request->input('sales_delivery_note_id'))->update(['status' => 2]);
         return redirect('/retur-sales')->with('status', 'Data Retur Penjualan Berhasil Disimpan !');
     }
 
@@ -87,7 +112,8 @@ class ReturSalesController extends Controller
      */
     public function show(ReturSales $returSale)
     {
-        return view('sales.retur-sales.show', compact('returSale'));
+        $journal = Journal::where('code',$returSale->code)->first();
+        return view('sales.retur-sales.show', compact('returSale','journal'));
     }
 
     /**

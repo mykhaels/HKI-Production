@@ -49,8 +49,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (session('reportPayment'))
-            {{ $reportPayment = session('reportPayment') }}
+
             @foreach ($reportPayment as $item)
                 <tr>
                     <td>{{ date('d-M-Y', strtotime($item->transaction_date)) }}</td>
@@ -59,7 +58,6 @@
                     <td>{{ $item->total }}</td>
                 </tr>
             @endforeach
-        @endif
 
     </tbody>
 </table>

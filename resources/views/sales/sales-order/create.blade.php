@@ -51,13 +51,13 @@
     </div>
 
     <div class="table-responsive-md">
-    <table class="table" id="details_table">
+    <table class="table" id="details_table" style="overflow: auto;">
         <thead>
             <tr scope="row" class="d-flex">
                 <th scope="col" class="col-3">Kode-Nama Produk</th>
                 <th scope="col" class="col-1">Qty</th>
-                <th scope="col" class="col-2">Satuan</th>
-                <th scope="col" class="col-1">Harga</th>
+                <th scope="col" class="col-1">Satuan</th>
+                <th scope="col" class="col-2">Harga</th>
                 <th scope="col" class="col-1">Diskon</th>
                 <th scope="col" class="col-1">Status Pajak</th>
                 <th scope="col" class="col-2">Total</th>
@@ -78,14 +78,14 @@
                     </div>
                 </td>
                 <td class="col-1"><input type="number" id="qty" name="quantities[]" min="0" class="form-control" value="1" onkeyup="calculateTotal()" oninput="validity.valid||(value='0');"/></td>
-                <td class="col-2">
+                <td class="col-1">
                     <select class="form-control" id="uom" name="uoms[]" onChange="uomChange(this)">
                     @foreach ($uoms as $uom)
                         <option value="{{ $uom->id }}">{{ $uom->name }}</option>
                     @endforeach
                     </select>
                 </td>
-                <td class="col-1"><input type="number" name="prices[]"  min="0" class="form-control" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value='0');"/></td>
+                <td class="col-2"><input type="number" name="prices[]"  min="0" class="form-control" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value='0');"/></td>
                 <td class="col-1"><input type="number" name="discounts[]" min="0" class="form-control" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value='0');"/></td>
                 <td class="col-1">
                     <div>
@@ -186,14 +186,14 @@
                     +'</div>'
                 +'</td>'
                 +'<td class="col-1"><input type="number" name="quantities[]" min="0" class="form-control" value="1" onkeyup="calculateTotal()" oninput="validity.valid||(value=\'0\');"/></td>'
-                +'<td class="col-2">'
+                +'<td class="col-1">'
                     +'<select class="form-control" id="uom" name="uoms[]" onChange="uomChange(this)">'
                     +'@foreach ($uoms as $uom)'
                         +'<option value="{{ $uom->id }}">{{ $uom->name }}</option>'
                     +'@endforeach'
                     +'</select>'
                 +'</td>'
-                +'<td class="col-1"><input type="number" name="prices[]" class="form-control" min="0" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value=\'0\');"/></td>'
+                +'<td class="col-2"><input type="number" name="prices[]" class="form-control" min="0" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value=\'0\');"/></td>'
                 +'<td class="col-1"><input type="number" name="discounts[]" min="0" class="form-control" value="0" onkeyup="calculateTotal()" oninput="validity.valid||(value=\'0\');"/></td>'
                 +'<td class="col-1">'
                 +'    <div>'

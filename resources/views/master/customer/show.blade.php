@@ -60,6 +60,9 @@
     <div class="col-2">
         <a href="/customer"><button type="button" class="btn btn-primary">Kembali</button></a>
     </div>
+    <div class="col-10 text-right">
+        <a class="btn btn-primary" href="/customer/{{ $customer->id }}/edit">Ubah</a>
+    </div>
 </div>
 </form>
 

@@ -238,11 +238,11 @@ return [
             'url'  => 'product-category',
             'icon' => 'fas fa-bezier-curve',
         ],
-        [
-            'text' => 'Master Supplier ',
-            'url'  => 'supplier',
-            'icon' => 'fas fa-bezier-curve',
-        ],
+        // [
+        //     'text' => 'Master Supplier ',
+        //     'url'  => 'supplier',
+        //     'icon' => 'fas fa-bezier-curve',
+        // ],
         [
             'text' => 'Master Produk',
             'url'  => 'product',
@@ -253,53 +253,58 @@ return [
             'url'  => 'customer',
             'icon' => 'fab fa-product-hunt',
         ],
-        ['header' => 'PEMBELIAN'],
         [
-            'text' => 'Pesanan Pembelian',
-            'url'  => 'purchase-order',
-            'icon' => 'fas fa-bezier-curve',
-        ],
-        [
-            'text' => 'Uang Muka Pembelian',
-            'url'  => 'initial-payment',
-            'icon' => 'fas fa-bezier-curve',
-        ],
-        [
-            'text' => 'Penerimaan Pembelian',
-            'url'  => 'good-receipt',
+            'text' => 'Master Akun',
+            'url'  => 'account',
             'icon' => 'fab fa-product-hunt',
         ],
-        [
-            'text' => 'Retur Pembelian',
-            'url'  => 'retur',
-            'icon' => 'fab fa-product-hunt',
-        ],
-        [
-            'text' => 'Faktur Pembelian',
-            'url'  => 'invoice',
-            'icon' => 'fab fa-product-hunt',
-        ],
-        [
-            'text' => 'Pelunasan Pembelian',
-            'url'  => 'settlement',
-            'icon' => 'fab fa-product-hunt',
-        ],
-        [
-            'text' => 'Penghapusan Pembelian',
-            'url'  => 'writeoff',
-            'icon' => 'fab fa-product-hunt',
-        ],
+        // ['header' => 'PEMBELIAN'],
+        // [
+        //     'text' => 'Pesanan Pembelian',
+        //     'url'  => 'purchase-order',
+        //     'icon' => 'fas fa-bezier-curve',
+        // ],
+        // [
+        //     'text' => 'Uang Muka Pembelian',
+        //     'url'  => 'initial-payment',
+        //     'icon' => 'fas fa-bezier-curve',
+        // ],
+        // [
+        //     'text' => 'Penerimaan Pembelian',
+        //     'url'  => 'good-receipt',
+        //     'icon' => 'fab fa-product-hunt',
+        // ],
+        // [
+        //     'text' => 'Retur Pembelian',
+        //     'url'  => 'retur',
+        //     'icon' => 'fab fa-product-hunt',
+        // ],
+        // [
+        //     'text' => 'Faktur Pembelian',
+        //     'url'  => 'invoice',
+        //     'icon' => 'fab fa-product-hunt',
+        // ],
+        // [
+        //     'text' => 'Pelunasan Pembelian',
+        //     'url'  => 'settlement',
+        //     'icon' => 'fab fa-product-hunt',
+        // ],
+        // [
+        //     'text' => 'Penghapusan Pembelian',
+        //     'url'  => 'writeoff',
+        //     'icon' => 'fab fa-product-hunt',
+        // ],
         ['header' => 'PENJUALAN'],
         [
             'text' => 'Pesanan Penjualan',
             'url'  => 'sales-order',
             'icon' => 'fas fa-bezier-curve',
         ],
-        [
-            'text' => 'Uang Muka Penjualan',
-            'url'  => 'initial-payment-sales',
-            'icon' => 'fas fa-bezier-curve',
-        ],
+        // [
+        //     'text' => 'Uang Muka Penjualan',
+        //     'url'  => 'initial-payment-sales',
+        //     'icon' => 'fas fa-bezier-curve',
+        // ],
         [
             'text' => 'Surat Jalan',
             'url'  => 'sales-delivery-note',
@@ -335,6 +340,12 @@ return [
             'url'  => 'report/payment-report',
             'icon' => 'fab fa-product-hunt',
         ],
+        ['header' => 'JURNAL'],
+        [
+            'text' => 'Jurnal ',
+            'url'  => 'journal',
+            'icon' => 'fas fa-warehouse',
+        ],
 
         ['header' => 'PERSEDIAAN'],
         [
@@ -342,22 +353,32 @@ return [
             'url'  => 'delivery-note',
             'icon' => 'fas fa-warehouse',
         ],
-        ['header' => 'PRODUKSI'],
         [
-            'text' => 'Perintah Produksi ',
-            'url'  => 'production-order',
-            'icon' => 'fab fa-first-order',
+            'text' => 'Permintaan Kirim Barang ',
+            'url'  => 'transfer-request',
+            'icon' => 'fas fa-warehouse',
         ],
         [
-            'text' => 'Permintaan Produksi',
-            'url'  => 'delivery-request',
-            'icon' => 'fas fa-code-branch',
+            'text' => 'Penerimaan Transfer ',
+            'url'  => 'transfer-in',
+            'icon' => 'fas fa-warehouse',
         ],
-        [
-            'text' => 'Hasil Produksi',
-            'url'  => 'production-result',
-            'icon' => 'fas fa-cubes',
-        ],
+        // ['header' => 'PRODUKSI'],
+        // [
+        //     'text' => 'Perintah Produksi ',
+        //     'url'  => 'production-order',
+        //     'icon' => 'fab fa-first-order',
+        // ],
+        // [
+        //     'text' => 'Permintaan Produksi',
+        //     'url'  => 'delivery-request',
+        //     'icon' => 'fas fa-code-branch',
+        // ],
+        // [
+        //     'text' => 'Hasil Produksi',
+        //     'url'  => 'production-result',
+        //     'icon' => 'fas fa-cubes',
+        // ],
 
 
 

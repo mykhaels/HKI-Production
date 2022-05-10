@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Coa;
 use App\SalesInvoice;
 use App\SalesDeliveryNote;
 use App\Customer;
+use App\Journal;
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SalesInvoiceController extends Controller
 {
@@ -59,31 +64,56 @@ class SalesInvoiceController extends Controller
             'sales_delivery_note_id.not_in' => 'Kode SJ harus dipilih !',
         ]);
 
-        $salesInvoice = SalesInvoice::create($request->all());
+        try {
+            DB::beginTransaction();
 
-        $uoms = $request->input('uoms', []);
-        $qtys = $request->input('quantities', []);
-        $products = $request->input('products', []);
-        $prices = $request->input('prices', []);
-        $discounts = $request->input('discounts', []);
-        $taxs = $request->input('taxs', []);
-        $totals = $request->input('totals', []);
-        for ($i=0; $i < count($uoms); $i++) {
-            if ($uoms[$i] != '') {
-                $salesInvoice->salesInvoiceDetails()->create(
-                    [
-                    'product_id'=> $products[$i],
-                    'qty'=>$qtys[$i],
-                    'uom_id'=>$uoms[$i],
-                    'price'=>$prices[$i],
-                    'discount'=>$discounts[$i],
-                    'tax_status'=>$taxs[$i],
-                    'total'=>$totals[$i]
-                    ]);
+            $salesInvoice = SalesInvoice::create($request->all());
+
+            $uoms = $request->input('uoms', []);
+            $qtys = $request->input('quantities', []);
+            $products = $request->input('products', []);
+            $prices = $request->input('prices', []);
+            $discounts = $request->input('discounts', []);
+            $taxs = $request->input('taxs', []);
+            $totals = $request->input('totals', []);
+            for ($i=0; $i < count($uoms); $i++) {
+                if ($uoms[$i] != '') {
+                    $salesInvoice->salesInvoiceDetails()->create(
+                        [
+                        'product_id'=> $products[$i],
+                        'qty'=>$qtys[$i],
+                        'uom_id'=>$uoms[$i],
+                        'price'=>$prices[$i],
+                        'discount'=>$discounts[$i],
+                        'tax_status'=>$taxs[$i],
+                        'total'=>$totals[$i]
+                        ]);
+                }
             }
-        }
 
-        SalesDeliveryNote::where('id',$request->input('sales_delivery_note_id'))->update(['status'=>3]);
+            SalesDeliveryNote::where('id',$request->input('sales_delivery_note_id'))->update(['status'=>3]);
+
+            $journal = Journal::create([
+                'code'=>$request->code,
+                'transaction_date'=>$request->transaction_date
+            ]);
+            $journal->journalDetails()->createMany([
+                [
+                    'coa_id' => 550,
+                    'account' => 'Debit',
+                    'total' => $request->total
+                ],
+                [
+                    'coa_id' => 578,
+                    'account' => 'Kredit',
+                    'total' => $request->total
+                ]
+            ]);
+            DB::commit();
+
+        } catch (Throwable $e) {
+            DB::rollback();
+        }
         return redirect('/sales-invoice')->with('status','Data Faktur Berhasil Disimpan !');
     }
 
@@ -95,7 +125,8 @@ class SalesInvoiceController extends Controller
      */
     public function show(SalesInvoice $salesInvoice)
     {
-        return view('sales.sales-invoice.show',compact('salesInvoice'));
+        $journal = Journal::where('code',$salesInvoice->code)->first();
+        return view('sales.sales-invoice.show',compact('salesInvoice','journal'));
     }
 
     /**
@@ -164,7 +195,7 @@ class SalesInvoiceController extends Controller
     public function getSalesReport(Request $request){
         $request->validate([
             'transaction_date_start' => ['required','date'],
-            'transaction_date_end' => ['required','date','after:transaction_date_start'],
+            'transaction_date_end' => ['required','date','after_or_equal:transaction_date_start'],
 
         ],[
             'transaction_date_start.required' => 'Tanggal awal harus dipilih !',
@@ -175,5 +206,18 @@ class SalesInvoiceController extends Controller
         $reportSales = SalesInvoice::whereBetween('transaction_date',[$request->transaction_date_start,$request->transaction_date_end])->where('status',1)->paginate(10);
         if($reportSales->count()<1)return redirect('/report/sales-report')->with('status','Data tidak ditemukan !');
         return redirect('/report/sales-report')->with('status',$status)->with('reportSales',$reportSales);
+    }
+
+    public function print($transaction_date_start,$transaction_date_end){
+        echo($transaction_date_start+"-"+$transaction_date_end);
+    }
+
+    public function downloadPDF(Request $request) {
+        $mytime = Carbon::now();
+        $reportSales = SalesInvoice::whereBetween('transaction_date',[$request->startDate,$request->endDate])->where('status',1)->get();
+        $pdf = PDF::loadView('/sales/report/print-sales-report' , ['reportSales'=>$reportSales,'startDate'=>$request->startDate,'endDate'=>$request->endDate]);
+        $date = $mytime->format("YmdHis");
+        return $pdf->download("laporan_penjualan_".$date.".pdf");
+
     }
 }

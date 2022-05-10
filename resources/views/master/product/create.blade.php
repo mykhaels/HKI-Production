@@ -21,11 +21,16 @@
     <div class="form-group row">
         <label for="category" class="col-sm-2 col-form-label">Kategori Produk</label>
         <div  class="col-sm-2">
-            <select class="form-control" id="product_category_id" name="product_category_id">
+            <select class="form-control @error('product_category_id') is-invalid @enderror" id="product_category_id" name="product_category_id" @>
                 @foreach ($productCategories as $productCategory)
                     <option value="{{ $productCategory->id }}">{{ $productCategory->product_category }}</option>
                 @endforeach
             </select>
+            @error('product_category_id')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -59,6 +64,7 @@
                 <th scope="col">Satuan</th>
                 <th scope="col">Nilai Konversi</th>
                 <th scope="col">Tingkat</th>
+                <th scope="col">Harga</th>
                 <th scope="col">Hapus</th>
             </tr>
         </thead>
@@ -123,6 +129,10 @@
 
 
     $('#productType').change(function(){
+        getProductType();
+    });
+
+    function getProductType(){
         var id = document.getElementById("productType").value;
 
         $.ajax({
@@ -141,7 +151,9 @@
             }
 
         });
-    });
+    }
+
+    getProductType();
 
 </script>
 @stop

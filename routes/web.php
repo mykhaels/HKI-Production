@@ -76,7 +76,9 @@ Route::get('retur-sales/getListSJCustomer','ReturSalesController@getListSJCustom
 Route::resource('retur-sales', 'ReturSalesController');
 
 Route::view('report/sales-report', 'sales.report.sales-report',  ['reportSales'=>App\SalesInvoice::where('id',0)->paginate(10)]);
-Route::post('report/sales-report','SalesInvoiceController@getSalesReport');
+Route::get('report/sales-report/search','SalesInvoiceController@getSalesReport');
+Route::get('report/print/{transaction_date_start}/{transaction_date_end}','SalesInvoiceController@print');
+Route::get('report/pdf','SalesInvoiceController@downloadPDF');
 
 Route::patch('sales-invoice/updateStatus/{salesInvoice}','SalesInvoiceController@updateStatus');
 Route::get('sales-invoice/getListSJCustomer','SalesInvoiceController@getListSJCustomer');
@@ -91,3 +93,18 @@ Route::resource('sales-settlement', 'SalesSettlementController');
 Route::resource('sales-writeoff', 'SalesWriteOffController');
 
 
+//acount
+Route::patch('account/status/{coa}', 'CoaController@updateStatus');
+Route::resource('account', 'CoaController');
+
+Route::get('journal/search_account','JournalController@searchAccount');
+Route::resource('journal', 'JournalController');
+
+
+//Persediaan
+Route::patch('transfer-request/updateStatus/{transferRequest}','TransferRequestController@updateStatus');
+Route::resource('transfer-request', 'TransferRequestController');
+
+Route::patch('transfer-in/updateStatus/{transferIn}','TransferInController@updateStatus');
+Route::get('transfer-in/getTransferRequest','TransferInController@getTransferRequest');
+Route::resource('transfer-in', 'TransferInController');

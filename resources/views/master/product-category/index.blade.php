@@ -26,6 +26,7 @@
                     <th scope="col" class="sorting" tabindex="0" aria-controls="category-table" rowspan="1" colspan="1" aria-label="Kategori Produk: activate to sort column ascending">Kategori Produk</th>
                     <th scope="col" class="sorting" tabindex="0" aria-controls="category-table" rowspan="1" colspan="1" aria-label="Tipe Produk: activate to sort column ascending">Tipe Produk</th>
                     <th scope="col" class="sorting" tabindex="0" aria-controls="category-table" rowspan="1" colspan="1" aria-label="Status Produk: activate to sort column ascending">Status Produk</th>
+                    <th scope="col" class="sorting" tabindex="0" aria-controls="category-table" rowspan="1" colspan="1" aria-label="Status Produk: activate to sort column ascending">Lihat Detail</th>
                     <th scope="col" class="sorting" tabindex="0" aria-controls="category-table" rowspan="1" colspan="1" aria-label="Ubah Status: activate to sort column ascending">Ubah Status</th>
                 </tr>
             </thead>
@@ -47,6 +48,8 @@
                         @else
                             <td>Tidak Aktif</td>
                         @endif
+
+                        <td><a class="btn btn-success" href="product-category/{{ $item->id }}">Lihat Detail</a></td>
                         <td>
                             <form action="product-category/status/{{ $item->id }}" method="post">
                                 @method('patch')

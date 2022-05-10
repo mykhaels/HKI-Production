@@ -48,6 +48,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'max:100'],
+            'product_category_id' => ['required','not_in:0']
+        ],[
+            'name.required' => 'Nama harus diisi !',
+            'product_category_id.not_in' => 'Kategori harus dipilih !',
+        ]);
         $product = Product::create($request->all());
 
         $uoms = $request->input('uoms', []);
@@ -84,7 +91,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $uoms =Uom::all();
+        $productCategories = ProductCategory::all();
+        return view('master.product.edit',compact('product','productCategories','uoms'));
     }
 
     /**
@@ -96,7 +105,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'max:100'],
+            'product_category_id' => ['required','not_in:0']
+        ],[
+            'name.required' => 'Nama harus diisi !',
+            'product_category_id.not_in' => 'Kategori harus dipilih !',
+        ]);
+        $product->update($request->all());
+        $product->uoms()->detach();
+
+        $uoms = $request->input('uoms', []);
+        $conversions = $request->input('conversions', []);
+        $levels = $request->input('level', []);
+        $prices = $request->input('price', []);
+        for ($i=0; $i < count($uoms); $i++) {
+            if ($uoms[$i] != '') {
+                $product->uoms()->attach($uoms[$i], ['conversion' => $conversions[$i], 'level' => $levels[$i], 'price' =>$prices[$i]]);
+            }
+        }
+
+        return redirect('/product')->with('status','Data Produk Berhasil Diubah !');
     }
 
     /**

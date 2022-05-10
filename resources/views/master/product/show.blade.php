@@ -66,6 +66,7 @@
                 <th scope="col">Satuan</th>
                 <th scope="col">Nilai Konversi</th>
                 <th scope="col">Tingkat</th>
+                <th scope="col">Harga</th>
                 <th scope="col">Hapus</th>
             </tr>
         </thead>
@@ -94,6 +95,9 @@
 <div class="row">
     <div class="col-2">
         <a href="/product"><button type="button" class="btn btn-primary">Kembali</button></a>
+    </div>
+    <div class="col-10 text-right">
+        <a class="btn btn-primary" href="/product/{{ $product->id }}/edit">Ubah</a>
     </div>
 </div>
 </form>

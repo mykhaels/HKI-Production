@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\SalesSettlement;
 use App\Customer;
+use App\Journal;
 use App\SalesInvoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SalesSettlementController extends Controller
 {
@@ -61,26 +63,50 @@ class SalesSettlementController extends Controller
             'total.lte' => 'Nilai Pelunasan tidak bole melebihi Nilai Total !',
             'total.not_in' => 'Nilai Pelunasan tidak bole 0 !',
         ]);
-        $salesSettlement = SalesSettlement::create($request->all());
-        $checks = $request->input('checks', []);
-        $invoices = $request->input('invoices', []);
-        $remainders = $request->input('remainders', []);
-        $totals = $request->input('totals', []);
-        $salesSettlements = $request->input('salesSettlementTotals', []);
-        $total = $request->input('total');
-        for ($i=0; $i < count($checks); $i++) {
-            if(($total-$remainders[$i])>=0){
-                 SalesInvoice::where('id',$invoices[$i])->update(['status'=>2,'settlement_total'=>$totals[$i]]);
-                $total-=$remainders[$i];
-            }else{
-                $salesSettlementTotal = $salesSettlements[$i]+$total;
-                 SalesInvoice::where('id',$invoices[$i])->update(['settlement_total'=>$salesSettlementTotal]);
+        try {
+            DB::beginTransaction();
+            $salesSettlement = SalesSettlement::create($request->all());
+            $checks = $request->input('checks', []);
+            $invoices = $request->input('invoices', []);
+            $remainders = $request->input('remainders', []);
+            $totals = $request->input('totals', []);
+            $salesSettlements = $request->input('salesSettlementTotals', []);
+            $total = $request->input('total');
+            for ($i=0; $i < count($checks); $i++) {
+                if(($total-$remainders[$i])>=0){
+                    SalesInvoice::where('id',$invoices[$i])->update(['status'=>2,'settlement_total'=>$totals[$i]]);
+                    $total-=$remainders[$i];
+                }else{
+                    $salesSettlementTotal = $salesSettlements[$i]+$total;
+                    SalesInvoice::where('id',$invoices[$i])->update(['settlement_total'=>$salesSettlementTotal]);
+                }
+                $salesSettlement->salesSettlementDetails()->create(
+                    [
+                    'sales_invoice_id'=> $invoices[$i],
+                    'settlement_total'=>$remainders[$i],
+                    ]);
             }
-            $salesSettlement->salesSettlementDetails()->create(
+
+            $journal = Journal::create([
+                'code'=>$request->code,
+                'transaction_date'=>$request->transaction_date
+            ]);
+            $journal->journalDetails()->createMany([
                 [
-                'sales_invoice_id'=> $invoices[$i],
-                'settlement_total'=>$remainders[$i],
-                ]);
+                    'coa_id' => 546,
+                    'account' => 'Debit',
+                    'total' => $request->total
+                ],
+                [
+                    'coa_id' => 550,
+                    'account' => 'Kredit',
+                    'total' => $request->total
+                ]
+            ]);
+            DB::commit();
+
+        } catch (Throwable $e) {
+            DB::rollback();
         }
         return redirect('/sales-settlement')->with('status','Data Pelunasan Berhasil Disimpan !');
     }
@@ -93,7 +119,8 @@ class SalesSettlementController extends Controller
      */
     public function show(SalesSettlement $salesSettlement)
     {
-        return view('sales.sales-settlement.show',compact('salesSettlement'));
+        $journal = Journal::where('code',$salesSettlement->code)->first();
+        return view('sales.sales-settlement.show',compact('salesSettlement','journal'));
     }
 
     /**

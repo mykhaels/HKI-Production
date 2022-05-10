@@ -83,7 +83,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('master.customer.edit',compact('customer'));
     }
 
     /**
@@ -95,7 +95,24 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $request->validate([
+            'name' => ['required'],
+            'address' => ['required'],
+            'phone' => ['required','digits_between:10,13'],
+            'email' => ['required','email']
+        ],[
+            'code.required' => 'Nama Pelanggan harus diisi !',
+            'address.required' => 'Alamat harus diisi !',
+            'phone.required' => 'Nomor Telepon harus diisi !',
+            'phone.digits' => 'Nomor Telepon harus Angka 10 Sampai 13 Angka !',
+            'email.required' => 'Email harus diisi !',
+            'email.email' => 'Format Email Tidak Valid !'
+        ]);
+        $customer->update($request->all());
+
+
+
+        return redirect('/customer')->with('status','Data Pelanggan Berhasil Diubah !');
     }
 
     /**
